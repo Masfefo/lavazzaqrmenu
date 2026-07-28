@@ -52,13 +52,13 @@ function ItemForm({
   return (
     <form
       action={handleSubmit}
-      className="mt-2 space-y-3 rounded-lg border border-amber-200 bg-amber-50/60 p-3"
+      className="mt-2 space-y-3 rounded-lg border border-blue-200 bg-blue-50/60 p-3"
     >
       <input type="hidden" name="categoryId" value={categoryId} />
       <input type="hidden" name="itemId" value={item?.id ?? ""} />
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-stone-600">
+        <label className="mb-1 block text-xs font-medium text-blue-700">
           Ürün adı
         </label>
         <input
@@ -66,12 +66,12 @@ function ItemForm({
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          className="w-full rounded-md border border-stone-300 px-2 py-1.5 text-sm outline-none focus:border-amber-600"
+          className="w-full rounded-md border border-blue-200 px-2 py-1.5 text-sm outline-none focus:border-blue-600"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-xs font-medium text-stone-600">
+        <label className="mb-1 block text-xs font-medium text-blue-700">
           Boyutlar / Fiyatlar
         </label>
         <div className="space-y-2">
@@ -82,7 +82,7 @@ function ItemForm({
                 value={size.label}
                 onChange={(e) => updateSize(index, "label", e.target.value)}
                 required
-                className="w-1/2 rounded-md border border-stone-300 px-2 py-1.5 text-sm outline-none focus:border-amber-600"
+                className="w-1/2 rounded-md border border-blue-200 px-2 py-1.5 text-sm outline-none focus:border-blue-600"
               />
               <input
                 type="number"
@@ -92,7 +92,7 @@ function ItemForm({
                 value={size.price}
                 onChange={(e) => updateSize(index, "price", e.target.value)}
                 required
-                className="w-1/3 rounded-md border border-stone-300 px-2 py-1.5 text-sm outline-none focus:border-amber-600"
+                className="w-1/3 rounded-md border border-blue-200 px-2 py-1.5 text-sm outline-none focus:border-blue-600"
               />
               {sizes.length > 1 && (
                 <button
@@ -109,7 +109,7 @@ function ItemForm({
         <button
           type="button"
           onClick={addSizeRow}
-          className="mt-2 text-xs font-medium text-amber-700 hover:underline"
+          className="mt-2 text-xs font-medium text-blue-700 hover:underline"
         >
           + Boyut ekle
         </button>
@@ -119,14 +119,14 @@ function ItemForm({
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-md bg-amber-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-800 disabled:opacity-60"
+          className="rounded-md bg-yellow-400 px-3 py-1.5 text-xs font-bold text-blue-950 hover:bg-yellow-300 disabled:opacity-60"
         >
           {isPending ? "Kaydediliyor..." : "Kaydet"}
         </button>
         <button
           type="button"
           onClick={onDone}
-          className="rounded-md border border-stone-300 px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-100"
+          className="rounded-md border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-50"
         >
           İptal
         </button>
@@ -176,19 +176,19 @@ export function CategoryBlock({ category }: { category: import("@/types/menu").M
   }
 
   return (
-    <div className="rounded-xl bg-white p-4 shadow-sm">
+    <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-blue-100">
       <div className="mb-3 flex items-center justify-between gap-2">
         {editingCategoryName ? (
           <div className="flex flex-1 items-center gap-2">
             <input
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
-              className="flex-1 rounded-md border border-stone-300 px-2 py-1 text-sm outline-none focus:border-amber-600"
+              className="flex-1 rounded-md border border-blue-200 px-2 py-1 text-sm outline-none focus:border-blue-600"
             />
             <button
               onClick={handleRenameCategory}
               disabled={isPending}
-              className="text-xs font-semibold text-amber-700 hover:underline"
+              className="text-xs font-semibold text-blue-700 hover:underline"
             >
               Kaydet
             </button>
@@ -197,18 +197,18 @@ export function CategoryBlock({ category }: { category: import("@/types/menu").M
                 setCategoryName(category.name);
                 setEditingCategoryName(false);
               }}
-              className="text-xs font-medium text-stone-500 hover:underline"
+              className="text-xs font-medium text-blue-400 hover:underline"
             >
               İptal
             </button>
           </div>
         ) : (
           <>
-            <h2 className="text-base font-bold text-stone-900">{category.name}</h2>
+            <h2 className="text-base font-bold text-blue-950">{category.name}</h2>
             <div className="flex shrink-0 gap-2">
               <button
                 onClick={() => setEditingCategoryName(true)}
-                className="text-xs font-medium text-amber-700 hover:underline"
+                className="text-xs font-medium text-blue-700 hover:underline"
               >
                 Adını Değiştir
               </button>
@@ -224,7 +224,7 @@ export function CategoryBlock({ category }: { category: import("@/types/menu").M
         )}
       </div>
 
-      <ul className="divide-y divide-stone-200">
+      <ul className="divide-y divide-blue-100">
         {category.menu_items.map((item) => (
           <li key={item.id} className="py-2">
             {editingItemId === item.id ? (
@@ -236,8 +236,8 @@ export function CategoryBlock({ category }: { category: import("@/types/menu").M
             ) : (
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-sm font-medium text-stone-800">{item.name}</p>
-                  <p className="text-xs text-stone-500">
+                  <p className="text-sm font-medium text-blue-950">{item.name}</p>
+                  <p className="text-xs text-blue-400">
                     {item.menu_item_sizes
                       .map((s) => `${s.label}: ${s.price}\u20ba`)
                       .join(" · ")}
@@ -246,7 +246,7 @@ export function CategoryBlock({ category }: { category: import("@/types/menu").M
                 <div className="flex shrink-0 gap-2">
                   <button
                     onClick={() => setEditingItemId(item.id)}
-                    className="text-xs font-medium text-amber-700 hover:underline"
+                    className="text-xs font-medium text-blue-700 hover:underline"
                   >
                     Düzenle
                   </button>
@@ -269,7 +269,7 @@ export function CategoryBlock({ category }: { category: import("@/types/menu").M
       ) : (
         <button
           onClick={() => setAddingItem(true)}
-          className="mt-3 text-xs font-semibold text-amber-700 hover:underline"
+          className="mt-3 text-xs font-semibold text-blue-700 hover:underline"
         >
           + Yeni Ürün Ekle
         </button>

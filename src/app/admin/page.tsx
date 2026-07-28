@@ -11,16 +11,21 @@ export default async function AdminPage() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
   return (
-    <div className="min-h-full bg-stone-100">
-      <header className="sticky top-0 z-20 flex items-center justify-between bg-stone-900 px-4 py-3 shadow-md">
-        <div>
-          <h1 className="text-base font-bold text-amber-50">Lavazza Admin</h1>
-          <p className="text-xs text-stone-300">Menü yönetim paneli</p>
+    <div className="min-h-full bg-blue-50">
+      <header className="sticky top-0 z-20 flex items-center justify-between bg-blue-900 px-4 py-3 shadow-md">
+        <div className="flex items-center gap-2">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-yellow-400 text-lg">
+            ☕
+          </div>
+          <div>
+            <h1 className="text-base font-bold text-white">Lavazza Admin</h1>
+            <p className="text-xs text-blue-200">Menü yönetim paneli</p>
+          </div>
         </div>
         <form action={logout}>
           <button
             type="submit"
-            className="rounded-md bg-stone-700 px-3 py-1.5 text-xs font-medium text-stone-100 hover:bg-stone-600"
+            className="rounded-md bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-600"
           >
             Çıkış Yap
           </button>
