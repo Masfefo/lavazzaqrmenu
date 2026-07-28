@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MenuCategory, MenuItem } from "@/types/menu";
 
 function formatPrice(price: number) {
@@ -64,6 +64,44 @@ function ItemModal({ item, onClose }: { item: MenuItem; onClose: () => void }) {
 export function MenuExperience({ menu }: { menu: MenuCategory[] }) {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(
+    menu[0]?.id ?? null
+  );
+  const headerRef = useRef<HTMLElement>(null);
+  const pillRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+
+  useEffect(() => {
+    if (!showMenu || menu.length === 0) return;
+
+    const headerHeight = headerRef.current?.offsetHeight ?? 0;
+    const sections = menu
+      .map((category) => document.getElementById(category.id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) {
+          setActiveCategory(visible[0].target.id);
+        }
+      },
+      { rootMargin: `-${headerHeight + 8}px 0px -65% 0px`, threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [showMenu, menu]);
+
+  useEffect(() => {
+    if (!activeCategory) return;
+    pillRefs.current[activeCategory]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [activeCategory]);
 
   if (!showMenu) {
     return (
@@ -91,24 +129,36 @@ export function MenuExperience({ menu }: { menu: MenuCategory[] }) {
 
   return (
     <div className="animate-fade-in flex min-h-dvh flex-col bg-white text-blue-950">
-      <header className="sticky top-0 z-20 bg-blue-900 shadow-md">
-        <div className="mx-auto flex max-w-2xl items-center justify-between px-4 pt-4">
+      <header ref={headerRef} className="sticky top-0 z-20 bg-blue-900 shadow-md">
+        <div className="mx-auto max-w-2xl px-4 pt-5 pb-3 text-center">
           <button
             onClick={() => setShowMenu(false)}
-            className="text-left"
+            className="inline-flex flex-col items-center"
             aria-label="Ana sayfaya dön"
           >
-            <h1 className="text-xl font-bold tracking-wide text-white">Lavazza</h1>
-            <p className="pb-3 text-xs text-blue-200">Kahve Menüsü</p>
+            <div className="mb-1.5 flex h-11 w-11 items-center justify-center rounded-full bg-yellow-400 text-xl shadow-md shadow-blue-950/30">
+              ☕
+            </div>
+            <h1 className="text-2xl font-extrabold tracking-wide text-white">
+              Lavazza
+            </h1>
+            <p className="text-xs text-blue-200">Kahve Menüsü</p>
           </button>
         </div>
         <nav className="no-scrollbar mx-auto max-w-2xl overflow-x-auto">
-          <ul className="flex gap-2 whitespace-nowrap px-4 pb-3">
+          <ul className="flex gap-2.5 whitespace-nowrap px-4 pb-4">
             {menu.map((category) => (
               <li key={category.id}>
                 <a
+                  ref={(el) => {
+                    pillRefs.current[category.id] = el;
+                  }}
                   href={`#${category.id}`}
-                  className="inline-block rounded-full bg-blue-700/70 px-3 py-1.5 text-xs font-medium text-blue-50 transition-colors hover:bg-yellow-400 hover:text-blue-950"
+                  className={`inline-block rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                    activeCategory === category.id
+                      ? "bg-yellow-400 text-blue-950 shadow-sm"
+                      : "bg-blue-700/70 text-blue-50 hover:bg-yellow-400 hover:text-blue-950"
+                  }`}
                 >
                   {category.name}
                 </a>
