@@ -7,7 +7,7 @@ export async function getMenuData(): Promise<MenuCategory[]> {
   const { data, error } = await supabase
     .from("categories")
     .select(
-      "id, name, sort_order, menu_items(id, name, sort_order, menu_item_sizes(id, label, price, sort_order))"
+      "id, name, sort_order, menu_items(id, name, image_url, sort_order, menu_item_sizes(id, label, price, sort_order))"
     )
     .order("sort_order");
 

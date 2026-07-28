@@ -19,9 +19,12 @@ create table if not exists menu_items (
   id uuid primary key default gen_random_uuid(),
   category_id uuid not null references categories(id) on delete cascade,
   name text not null,
+  image_url text,
   sort_order integer not null default 0,
   created_at timestamptz not null default now()
 );
+
+alter table menu_items add column if not exists image_url text;
 
 create table if not exists menu_item_sizes (
   id uuid primary key default gen_random_uuid(),
@@ -56,6 +59,29 @@ create policy "auth_write_menu_items" on menu_items for all to authenticated usi
 
 drop policy if exists "auth_write_menu_item_sizes" on menu_item_sizes;
 create policy "auth_write_menu_item_sizes" on menu_item_sizes for all to authenticated using (true) with check (true);
+
+-- ---------- ÜRÜN GÖRSELLERİ (STORAGE) ----------
+-- Admin panelinden yüklenen ürün fotoğrafları için herkese açık okunabilir bir bucket.
+
+insert into storage.buckets (id, name, public)
+values ('menu-images', 'menu-images', true)
+on conflict (id) do nothing;
+
+drop policy if exists "public_read_menu_images" on storage.objects;
+create policy "public_read_menu_images" on storage.objects
+  for select using (bucket_id = 'menu-images');
+
+drop policy if exists "auth_upload_menu_images" on storage.objects;
+create policy "auth_upload_menu_images" on storage.objects
+  for insert to authenticated with check (bucket_id = 'menu-images');
+
+drop policy if exists "auth_update_menu_images" on storage.objects;
+create policy "auth_update_menu_images" on storage.objects
+  for update to authenticated using (bucket_id = 'menu-images');
+
+drop policy if exists "auth_delete_menu_images" on storage.objects;
+create policy "auth_delete_menu_images" on storage.objects
+  for delete to authenticated using (bucket_id = 'menu-images');
 
 -- ---------- BAŞLANGIÇ VERİSİ (Lavazza menüsü) ----------
 -- Not: Bu script'i yanlışlıkla iki kez çalıştırırsan veriler duplicate olur.

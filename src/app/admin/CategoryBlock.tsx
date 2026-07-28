@@ -19,12 +19,18 @@ function ItemForm({
   onDone: () => void;
 }) {
   const [name, setName] = useState(item?.name ?? "");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(item?.image_url ?? null);
   const [sizes, setSizes] = useState<SizeRow[]>(
     item && item.menu_item_sizes.length > 0
       ? item.menu_item_sizes.map((s) => ({ label: s.label, price: String(s.price) }))
       : [{ label: "Standart", price: "" }]
   );
   const [isPending, startTransition] = useTransition();
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) setPreviewUrl(URL.createObjectURL(file));
+  }
 
   function updateSize(index: number, field: "label" | "price", value: string) {
     setSizes((prev) => prev.map((s, i) => (i === index ? { ...s, [field]: value } : s)));
@@ -56,6 +62,33 @@ function ItemForm({
     >
       <input type="hidden" name="categoryId" value={categoryId} />
       <input type="hidden" name="itemId" value={item?.id ?? ""} />
+      <input type="hidden" name="currentImageUrl" value={item?.image_url ?? ""} />
+
+      <div>
+        <label className="mb-1 block text-xs font-medium text-blue-700">
+          Ürün fotoğrafı
+        </label>
+        <div className="flex items-center gap-3">
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              alt=""
+              className="h-16 w-16 rounded-md border border-blue-200 object-cover"
+            />
+          ) : (
+            <div className="flex h-16 w-16 items-center justify-center rounded-md border border-dashed border-blue-300 bg-blue-50 text-xl">
+              ☕
+            </div>
+          )}
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="flex-1 text-xs text-blue-700 file:mr-3 file:rounded-md file:border-0 file:bg-blue-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-blue-800 hover:file:bg-blue-200"
+          />
+        </div>
+      </div>
 
       <div>
         <label className="mb-1 block text-xs font-medium text-blue-700">
@@ -235,13 +268,26 @@ export function CategoryBlock({ category }: { category: import("@/types/menu").M
               />
             ) : (
               <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm font-medium text-blue-950">{item.name}</p>
-                  <p className="text-xs text-blue-400">
-                    {item.menu_item_sizes
-                      .map((s) => `${s.label}: ${s.price}\u20ba`)
-                      .join(" · ")}
-                  </p>
+                <div className="flex items-center gap-3">
+                  {item.image_url ? (
+                    <img
+                      src={item.image_url}
+                      alt=""
+                      className="h-12 w-12 rounded-md border border-blue-100 object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-12 w-12 items-center justify-center rounded-md border border-blue-100 bg-blue-50 text-lg">
+                      ☕
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm font-medium text-blue-950">{item.name}</p>
+                    <p className="text-xs text-blue-400">
+                      {item.menu_item_sizes
+                        .map((s) => `${s.label}: ${s.price}\u20ba`)
+                        .join(" · ")}
+                    </p>
+                  </div>
                 </div>
                 <div className="flex shrink-0 gap-2">
                   <button

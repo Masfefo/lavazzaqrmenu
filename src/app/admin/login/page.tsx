@@ -8,7 +8,7 @@ export default async function LoginPage({
   const { error } = await searchParams;
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-gradient-to-b from-blue-800 via-blue-900 to-slate-950 px-4">
+    <div className="flex min-h-dvh items-center justify-center bg-gradient-to-b from-blue-800 via-blue-900 to-slate-950 px-4">
       <form
         action={login}
         className="w-full max-w-sm rounded-2xl bg-white p-7 shadow-2xl"

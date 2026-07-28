@@ -8,6 +8,7 @@ export interface MenuItemSize {
 export interface MenuItem {
   id: string;
   name: string;
+  image_url: string | null;
   sort_order: number;
   menu_item_sizes: MenuItemSize[];
 }
