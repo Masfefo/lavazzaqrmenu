@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export async function login(formData: FormData) {
-  const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const email = process.env.ADMIN_EMAIL ?? "";
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({
@@ -14,7 +14,7 @@ export async function login(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/admin/login?error=${encodeURIComponent("E-posta veya şifre hatalı")}`);
+    redirect(`/admin/login?error=${encodeURIComponent("Şifre hatalı")}`);
   }
 
   redirect("/admin");

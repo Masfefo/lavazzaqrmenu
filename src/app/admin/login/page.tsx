@@ -25,17 +25,6 @@ export default async function LoginPage({
         )}
 
         <label className="mb-1 block text-sm font-medium text-stone-700">
-          E-posta
-        </label>
-        <input
-          type="email"
-          name="email"
-          required
-          autoComplete="email"
-          className="mb-4 w-full rounded-md border border-stone-300 px-3 py-2 text-sm outline-none focus:border-amber-600"
-        />
-
-        <label className="mb-1 block text-sm font-medium text-stone-700">
           Şifre
         </label>
         <input
