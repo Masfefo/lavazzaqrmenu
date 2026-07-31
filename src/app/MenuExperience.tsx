@@ -138,7 +138,7 @@ export function MenuExperience({ menu }: { menu: MenuCategory[] }) {
             className="inline-flex flex-col items-center"
             aria-label="Ana sayfaya dön"
           >
-            <img src="/lavazza-logo.png" alt="Lavazza" className="h-20 w-72" />
+            <img src="/lavazza-logo.png" alt="Lavazza" className="h-20 w-64" />
             <p className="mt-1 text-xs text-blue-900/60">Kahve Menüsü</p>
           </button>
         </div>
