@@ -105,20 +105,22 @@ export function MenuExperience({ menu }: { menu: MenuCategory[] }) {
 
   if (!showMenu) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-b from-blue-800 via-blue-900 to-slate-950 px-6 py-16 text-center">
+      <div className="flex min-h-dvh flex-col items-center justify-center bg-white px-6 py-16 text-center">
         <div className="animate-fade-in flex flex-col items-center">
-          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-400 text-4xl shadow-lg shadow-blue-950/40">
-            ☕
-          </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white">
-            Lavazza&apos;ya Hoşgeldiniz
+          <img
+            src="/lavazza-logo.png"
+            alt="Lavazza"
+            className="w-64 max-w-full"
+          />
+          <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-blue-950">
+            Hoşgeldiniz
           </h1>
-          <p className="mt-3 max-w-xs text-sm leading-relaxed text-blue-100">
+          <p className="mt-3 max-w-xs text-sm leading-relaxed text-blue-900/70">
             Taze demlenmiş kahveler ve lezzetli atıştırmalıklar sizi bekliyor.
           </p>
           <button
             onClick={() => setShowMenu(true)}
-            className="mt-9 rounded-full bg-yellow-400 px-9 py-3 text-sm font-bold tracking-wide text-blue-950 shadow-lg shadow-yellow-500/20 transition-all hover:scale-105 hover:bg-yellow-300 active:scale-95"
+            className="mt-9 rounded-full bg-blue-950 px-9 py-3 text-sm font-bold tracking-wide text-white shadow-lg shadow-blue-950/20 transition-all hover:scale-105 hover:bg-blue-900 active:scale-95"
           >
             Menüyü Gör
           </button>
@@ -129,20 +131,15 @@ export function MenuExperience({ menu }: { menu: MenuCategory[] }) {
 
   return (
     <div className="animate-fade-in flex min-h-dvh flex-col bg-white text-blue-950">
-      <header ref={headerRef} className="sticky top-0 z-20 bg-blue-900 shadow-md">
-        <div className="mx-auto max-w-2xl px-4 pt-5 pb-3 text-center">
+      <header ref={headerRef} className="sticky top-0 z-20 border-b border-blue-100 bg-white shadow-sm">
+        <div className="mx-auto max-w-2xl px-4 pt-4 pb-3 text-center">
           <button
             onClick={() => setShowMenu(false)}
             className="inline-flex flex-col items-center"
             aria-label="Ana sayfaya dön"
           >
-            <div className="mb-1.5 flex h-11 w-11 items-center justify-center rounded-full bg-yellow-400 text-xl shadow-md shadow-blue-950/30">
-              ☕
-            </div>
-            <h1 className="text-2xl font-extrabold tracking-wide text-white">
-              Lavazza
-            </h1>
-            <p className="text-xs text-blue-200">Kahve Menüsü</p>
+            <img src="/lavazza-logo.png" alt="Lavazza" className="h-10 w-auto" />
+            <p className="mt-1 text-xs text-blue-900/60">Kahve Menüsü</p>
           </button>
         </div>
         <nav className="no-scrollbar mx-auto max-w-2xl overflow-x-auto">
@@ -156,8 +153,8 @@ export function MenuExperience({ menu }: { menu: MenuCategory[] }) {
                   href={`#${category.id}`}
                   className={`inline-block rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                     activeCategory === category.id
-                      ? "bg-yellow-400 text-blue-950 shadow-sm"
-                      : "bg-blue-700/70 text-blue-50 hover:bg-yellow-400 hover:text-blue-950"
+                      ? "bg-blue-950 text-white shadow-sm"
+                      : "bg-blue-50 text-blue-900 hover:bg-blue-100"
                   }`}
                 >
                   {category.name}
