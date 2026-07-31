@@ -110,7 +110,7 @@ export function MenuExperience({ menu }: { menu: MenuCategory[] }) {
           <img
             src="/lavazza-logo.png"
             alt="Lavazza"
-            className="w-64 max-w-full"
+            className="w-full max-w-sm"
           />
           <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-blue-950">
             Hoşgeldiniz
