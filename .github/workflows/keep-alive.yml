@@ -1,0 +1,18 @@
+name: Keep Supabase Active
+
+# Site her istek geldiğinde (force-dynamic) Supabase'e sorgu atıyor.
+# Bu workflow, siteyi periyodik olarak ziyaret ederek Supabase projesinin
+# 7 gün işlemsizlikten dolayı otomatik duraklatılmasını (pause) önler.
+
+on:
+  schedule:
+    # Her 3 günde bir, 09:00 UTC'de çalışır
+    - cron: "0 9 */3 * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping site to keep Supabase project active
+        run: curl -sSf -o /dev/null -w "HTTP %{http_code}\n" "https://lavazzaqrmenu.vercel.app/"
